@@ -1,0 +1,228 @@
+<!doctype HTML>
+<html>
+<head>
+<title>Encuentra a Lider y Gana descuentos.</title>
+<meta name="description" content="Encuentra los logos en el programa y gana increbles descuentos">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link href="https://fonts.googleapis.com/css?family=Poppins:400,900" rel="stylesheet">
+<script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+<script src="/aframe-gif-shader.js"></script>
+<script src="/aframe-ar.js"> </script>
+<link href="https://fonts.googleapis.com/css?family=Poppins:400,900" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<style>
+*{
+  font-family: 'Poppins' !important;
+
+}
+.logos{
+      width: 100%;
+}
+.logos img{
+    display: inline-flex;
+    max-width: 85px;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+
+}
+h1{
+  text-transform: uppercase;
+  font-weight: 900;
+}
+.hidden{
+  display: none;
+  visibility: hidden;
+}
+.wrapper {
+  z-index: 300000;
+  background: black;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left:0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wrapper.transparent{
+  background: transparent;
+  z-index: 29999;
+     right: 0;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: end;
+}
+.wrapper.transparent h4, .wrapper.transparent h5 {
+  text-align: left;
+}
+div.inner{
+  padding:2em;
+  text-align: center;
+  color:white;
+}
+a{
+   font-family: 'Poppins', sans-serif;
+   color: white;
+    text-decoration: underline;
+}
+a.button, button{
+     cursor: pointer;
+    font-size: 2em;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    text-decoration: underline;
+    text-transform: uppercase;
+    margin: auto 0;
+    position: relative;
+    background: white;
+    color: black;
+    margin: 1em;
+    padding: 0.5em;
+    width: 65%;
+}
+#arjsDebugUIContainer, .arjsDebugUIContainer, .a-enter-vr {
+  display: none;
+}
+</style>
+</head>
+  <body style='margin : 0px; overflow: hidden;'>
+   
+
+    <a-scene embedded arjs='debugUIEnabled: false;'>
+      <a-assets>
+           
+            <video id="rico"  webkit-playsinline  autoplay="true" loop="true" src="rico-fresco.mp4"></video>
+            <video id="sano"  webkit-playsinline  autoplay="true" loop="true" src="rico-y-sano-final.mp4"></video>
+            
+    </a-assets>   
+
+   
+    <a-marker  id="rico-marker" preset='custom' type='pattern' url='lider.patt'>
+          <a-video src="#rico" width="1" height="1" position="0 0 0" rotation="-90 180 -180" > </a-video>
+            </a-entity>
+    </a-marker>
+      <a-marker  id="sano-marker" preset='custom' type='pattern' url='come-rico.patt'>
+    <a-video src="#sano" width="2" height="1" position="0 0 0" rotation="-90 180 -180" > </a-video>
+            </a-entity>
+    </a-marker>
+ <!--      <a-marker  id="verde-marker" preset='custom' type='pattern' url='llave-verde.patt'>
+    <a-entity  position="0 0 0" rotation="-90 180 -180"
+           geometry="primitive:plane;" material="side: double;shader:gif;src:url(/fireworks.gif);opacity:1">
+            </a-entity>
+    </a-marker> -->
+
+    
+    
+    <a-entity camera></a-entity>
+    </a-scene>
+    <div id="wrapper" class="wrapper">
+      <div id="first-move" class="inner">
+        <h1> Captura y Gana</h1>
+        <h5> Escanea los logos y participa por increibles descuentos.</h5>
+        <p> Escribe tu mail, acepta permisos de camara y busca los logos en el programa.</p>
+        <div class="row centered">
+            <div class="col-xs-12">
+            <form>
+              <div class="form-group wow  slideInRight"  data-wow-delay="2s"  >
+    <label for="exampleInputPassword1">Nombre</label>
+    <input id="nombre" type="text" class="form-control" placeholder="Nombre">
+  </div>
+  <div class="form-group wow slideInRight"  data-wow-delay="2.2s"  >
+    <label for="exampleInputEmail1">Email</label>
+    <input id="mail" type="email" class="form-control" placeholder="Email">
+  </div>
+  
+</form>
+           </div>
+        </div>
+        <div class="row wow bounceInUp" data-wow-delay="3.2s"  >
+          <button type="button" class="btn-big btn-default wow shake"  data-wow-delay="5s"  onClick="start(this.parentNode.parentNode)">Empezar</button>
+        </div>
+      </div>
+    </div>
+    <div id="scoreboard" class="wrapper transparent">
+      <div class="inner">
+        <h4 id="top-msg"> <span class="name"> </span>, tu puntaje es 0 de 2  </h4>
+        <h5 id="next-msg"> Atento a los logos!</h5>
+      </div>
+    </div>
+  </body>
+  <link href="animate.css"  rel='stylesheet' type='text/css'>
+  <script src='libs/jquery-1.10.2.min.js''></script>
+  <script src="libs/wow/dist/wow.js"></script>
+  <script>
+    var videos = ["rico","sano"];
+    var played = [false,false];
+    new WOW().init();
+   var name = '';
+   var mail= '';
+  function start(element) {
+    name = $('#nombre').val();
+    mail = $('#mail').val();
+    $('.name').html(name);
+    document.getElementById('wrapper').remove()
+    
+    for (var i = 0; i < videos.length; i++) {
+        var vid = videos[i];
+        var v = document.getElementById(vid);
+        v.play();
+        v.pause();
+          (function(id,index){
+            document.getElementById(id+ '-marker').addEventListener('marker-found', function(e){   
+              var currentvid = document.getElementById(id);
+              currentvid.play();
+
+              playMove(index,id);
+            });
+            document.getElementById(id+'-marker').addEventListener('marker-lost', function(e){ 
+              
+
+            });
+          })(videos[i],i);
+    }
+
+    
+
+  };
+
+  var playMove = function(index,name){
+    var currentMovePlayed = played[index];
+    if (currentMovePlayed) return;
+
+                played[index] =true;
+                winner = true;
+                goals= 0;
+                for (var j= 0; j < played.length; j++) {
+
+                  if (!played[j]){
+                    winner = false;
+                    break; 
+                  }else {
+                    goals++;
+                  }
+                }
+                
+                if(winner){
+                  document.getElementById('top-msg').innerHTML=name + "lo has Logrado!";
+                  document.getElementById('next-msg').innerHTML="Revisa en " + mail  + " e ingresa al sitio para reclamar los descuentos";
+                }
+                else {
+                  document.getElementById('top-msg').innerHTML=name + ", tu puntaje:  " + goals + ' / 2';
+                  document.getElementById('next-msg').innerHTML='Aun te quedan mas llaves. Atento!';
+                }
+                $('#top-msg').addClass('shake')
+                $('#top-msg').addClass('wow')
+                new WOW().init();
+             
+  }
+  
+
+
+
+
+
+  </script>
+</html>
